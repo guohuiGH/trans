@@ -19,11 +19,11 @@ def parse_time(time):
     if month == 8:
         base = 0
     elif month == 9:
-        base = 30
+        base = 31
     elif month == 10:
         base = 61
     elif month == 11:
-        base = 91
+        base = 92
     elif month == 12:
         base = 122
     day = base + day
@@ -46,6 +46,7 @@ def read_data(file_name):
         name_day_hour[s] += 1
         line = my_file.readline()
     my_file.close()
+    #print name_day_hour['10,62,06']
     return name_day_hour
 
 def get_average_week(name_day_hour):
@@ -93,11 +94,18 @@ def write_file(test_name_day_hour,file_name):
     my_file.close()
         
         
+def write_name_day_hour(name_day_hour, file_name):
+    name_file = open(file_name, 'w+')
+    for line in name_day_hour:
+        name_file.write(line + ',' + str(name_day_hour[line]) + '\n')
+    name_file.close()
 
 
 def main():
     train_file = '../tmp/gd_train'
     train_name_day_hour = read_data(train_file)
+    name_file = '../tmp/name_day_hour'
+    write_name_day_hour(train_name_day_hour, name_file)
     train_name_week_hour = get_average_week(train_name_day_hour)
     (maxValue, minValue, averValue) = get_max_min_aver(train_name_week_hour)
     predict_file = '../tmp/predict_av.txt'
@@ -109,7 +117,7 @@ def main():
     test_file = '../tmp/gd_test'
     test_name_day_hour = read_data(test_file)
     predict_file = '../tmp/predict'
-    write_file(test_name_day_hour,predict_file)
+    #write_file(test_name_day_hour,predict_file)
 
 
 if __name__=='__main__':
