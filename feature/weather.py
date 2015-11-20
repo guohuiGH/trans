@@ -70,16 +70,16 @@ def read_file(file_name):
         line_list[1] = parse_wea(line_list[1].split('/'))
         line_list[2] = parse_wea(line_list[2].split('/'))
         line_list[3] = parse_win(line_list[3].split('/'))
-        day_dic[line_list[0]] = ','.join(line_list)
+        day_dic[line_list[0]] = (line_list)
         line = myfile.readline()
     myfile.close()
-    print len(day_dic)
-
+    #print len(day_dic)
+    return day_dic
 
 
 def get_weather():
     weather_file = '../tmp/gd_weather_report.txt'
-    read_file(weather_file)
+    return read_file(weather_file)
 
 if __name__ == '__main__':
     main()    
