@@ -64,24 +64,40 @@ def connect_feature(file_name1, file_name2):
 def max_range(features):
     col = len(features[0])
     maxlen = list()
+    maxlen.append(0)
     for i in range(1, col):
         maxlen.append(max([line[i] for line in features]))
     return maxlen
 
 def one_hot_encoding(file_name, features):
-    #file1 =open(file_name, 'w+')
+    file1 =open(file_name, 'w+')
     length = len(features)
 
     for i in range(0, length):
-        features[i] = features[i].split(',')
-        
+        features[i] = features[i].split(',') 
         for j in range(0,len(features[i])):
             features[i][j] = int(features[i][j])
+    maxlen = max_range(features)    
+    le = len(maxlen)
+
+    sum_length = sum(maxlen)
+    origin_list = list()
+    for i in range(0,sum_length):
+        origin_list.append('0')
+
+    for i in range(0, length):
+        temp_list = list()
+        temp_list.append(str(features[i][0]))
+        temp_list.extend(origin_list)
 
 
+        for j in range(0, le-1):
+            index = sum(maxlen[0:j+1]) + features[i][j+1]
 
-    maxlen = max_range(features)
-    print maxlen
+            temp_list[index] = '1'
+        file1.write(' '.join(temp_list) + '\n')
+
+    file1.close()
     
 
 def main():
