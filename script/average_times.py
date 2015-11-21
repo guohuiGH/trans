@@ -101,19 +101,46 @@ def write_name_day_hour(name_day_hour, file_name):
     name_file.close()
 
 
+def write_test(file_name):
+    myfile = open(file_name, 'w+')
+    name = 2; day = 8; hour = 16
+    for i in range(0, name):
+        for j in range(1, day):
+            for t in range(6, hour+6):
+                line = list()
+                if i == 0:
+                    line.append('10')
+                else:
+                    line.append('15')
+                line.append(str(j + 153))
+                line.append(str(t))
+                myfile.write(','.join(line) + '\n')
+    myfile.close()
+
+
 def main():
     train_file = '../tmp/gd_train'
     train_name_day_hour = read_data(train_file)
-    name_file = '../tmp/name_day_hour'
+    name_file = '../tmp/name_day_hour_train'
     write_name_day_hour(train_name_day_hour, name_file)
-    train_name_week_hour = get_average_week(train_name_day_hour)
-    (maxValue, minValue, averValue) = get_max_min_aver(train_name_week_hour)
+    
+    validation_file = '../tmp/gd_validation'
+    validation_name_day_hour = read_data(validation_file)
+    name_file = '../tmp/name_day_hour_validation'
+    write_name_day_hour(validation_name_day_hour, name_file)
+
+    name_file = '../tmp/name_day_hour_test'
+    write_test(name_file)
+
+
+    #train_name_week_hour = get_average_week(train_name_day_hour)
+    #(maxValue, minValue, averValue) = get_max_min_aver(train_name_week_hour)
     predict_file = '../tmp/predict_av.txt'
-    write_file(averValue, predict_file)
+    #write_file(averValue, predict_file)
     predict_file = '../tmp/predict_ma.txt'
-    write_file(maxValue, predict_file)
+    #write_file(maxValue, predict_file)
     predict_file = '../tmp/predict_mi.txt'
-    write_file(minValue, predict_file)
+    #write_file(minValue, predict_file)
     test_file = '../tmp/gd_test'
     test_name_day_hour = read_data(test_file)
     predict_file = '../tmp/predict'

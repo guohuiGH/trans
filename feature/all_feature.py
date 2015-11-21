@@ -21,7 +21,7 @@ def read_file(file_name1, file_name2):
 
 def isHoliday(day):
     brefore_holiday=[38,61,153]
-    holiday = [39,62,63,64,65,66,77,68]
+    holiday = [39,62,63,64,65,66,77,68,154,155,156]
     after_holiday = [72,157]
     for d in brefore_holiday:
         if day == d:
@@ -51,7 +51,7 @@ def connect_feature(file_name1, file_name2):
         day = int(line_list[1])
         temp_list.append(str(day%7 + 1))
         temp_list.append(str(isHoliday(day)))
-        temp_list.append(str(int(line_list[2])))
+        temp_list.append(str(int(line_list[2])+1))
         #print weather_feature[str(day)]
         temp_list.extend(weather_feature[str(day)][1:])
         features.append(','.join(temp_list))
@@ -61,6 +61,17 @@ def connect_feature(file_name1, file_name2):
     file2.close()
     return features
 
+def change_features(features):
+
+    length = len(features)
+    for i in range(0, length): 
+        features[i] = features[i].split(',') 
+        for j in range(0,len(features[i])):
+            features[i][j] = int(features[i][j])
+    maxlen = max_range(features)
+    return features, maxlen
+    
+
 def max_range(features):
     col = len(features[0])
     maxlen = list()
@@ -69,22 +80,14 @@ def max_range(features):
         maxlen.append(max([line[i] for line in features]))
     return maxlen
 
-def one_hot_encoding(file_name, features):
+def one_hot_encoding(file_name, features, maxlen):
     file1 =open(file_name, 'w+')
-    length = len(features)
-
-    for i in range(0, length):
-        features[i] = features[i].split(',') 
-        for j in range(0,len(features[i])):
-            features[i][j] = int(features[i][j])
-    maxlen = max_range(features)    
     le = len(maxlen)
-
     sum_length = sum(maxlen)
     origin_list = list()
     for i in range(0,sum_length):
         origin_list.append('0')
-
+    length = len(features)
     for i in range(0, length):
         temp_list = list()
         temp_list.append(str(features[i][0]))
@@ -104,11 +107,23 @@ def main():
     max_file = '../tmp/predict_ma.txt'
     min_file = '../tmp/predict_mi.txt'
     read_file(max_file, min_file)
-    name_file = '../tmp/name_day_hour'
-    feature_file = '../tmp/all_feature'
+    name_file = '../tmp/name_day_hour_train'
+    feature_file = '../tmp/train_feature'
     features = connect_feature(name_file, feature_file)
-    dense_file = '../tmp/feature_dense'
-    one_hot_encoding(dense_file, features)
+    (train_features, maxlen1) = change_features(features)
+    
+    name_file = '../tmp/name_day_hour_validation'
+    feature_file = '../tmp/validation_feature'
+    features = connect_feature(name_file, feature_file)
+    (validation_features, maxlen2) = change_features(features)
+
+    maxlen = max(maxlen1, maxlen2)
+    print maxlen
+    dense_file = '../tmp/feature_dense_train'
+    one_hot_encoding(dense_file, train_features, maxlen)
+
+    dense_file = '../tmp/feature_dense_validation'
+    one_hot_encoding(dense_file, validation_features, maxlen)
 
 if __name__=='__main__':
     main()
