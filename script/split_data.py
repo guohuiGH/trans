@@ -7,16 +7,19 @@
 #!/bin/bash
 #coding=utf-8
 
-def main():
-    myfile = open('../tmp/gd_train_data.txt')
+import sys
+
+def main(line_name):
+    myfile = open('../tmp/' + line_name)
     train_file = open('../tmp/gd_train', 'w+')
     test_file = open('../tmp/gd_validation', 'w+')
+
     line = myfile.readline()
     count = 0
     while line:
         line_list = str(line).strip().split(',')
         time = int(line_list[5])
-        if time > 2014123000:
+        if time > 2014122500:
             test_file.write(str(line))
         else:
             train_file.write(str(line))
@@ -25,5 +28,5 @@ def main():
 
 
 if __name__=='__main__':
-    main()
+    main(sys.argv[1])
 
