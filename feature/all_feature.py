@@ -44,14 +44,39 @@ def connect_feature(file_name1, file_name2):
         temp_list = list()
         line_list = line.strip().split(',')
         temp_list.append(line_list[3])
-        if line_list[0] == '10':
-            temp_list.append('1')
-        else:
-            temp_list.append('2')
+        #if line_list[0] == '10':
+        #    temp_list.append('1')
+        #else:
+        #   temp_list.append('2')
         day = int(line_list[1])
-        temp_list.append(str(day%7 + 1))
-        temp_list.append(str(isHoliday(day)))
-        temp_list.append(str(int(line_list[2])+1))
+        holiday = isHoliday(day)
+        if holiday == 2:
+            temp_list.append(str(2))
+            temp_list.append(str(8))
+        elif holiday == 3:
+            if day == 157:
+                temp_list.append(str(1))
+                temp_list.append(str(1))
+            elif day == 72:
+                temp_list.append(str(1))
+                temp_list.append(str(5))
+        elif holiday == 1:
+            temp_list.append(str(1))
+            temp_list.append(str(day%7 + 1))
+        elif holiday == 4:
+            if day %7 > 0 and day %7 < 6:
+                temp_list.append(str(1))
+                temp_list.append(str(day%7))
+            elif day % 7 == 0:
+                temp_list.append(str(2))
+                temp_list.append(str(7))
+            elif day %7 == 6:
+                temp_list.append(str(2))
+                temp_list.append(str(6))
+
+        #temp_list[1] = (str(day%7 + 1))
+        #temp_list[2] = (str(isHoliday(day)))
+        temp_list.append(str(int(line_list[2])-5))
         #print weather_feature[str(day)]
         temp_list.extend(weather_feature[str(day)][1:])
         features.append(','.join(temp_list))
@@ -117,13 +142,21 @@ def main():
     features = connect_feature(name_file, feature_file)
     (validation_features, maxlen2) = change_features(features)
 
-    maxlen = max(maxlen1, maxlen2)
+    name_file = '../tmp/name_day_hour_test'
+    feature_file = '../tmp/test_feature'
+    features = connect_feature(name_file, feature_file)
+    (test_features, maxlen3) = change_features(features)
+
+    maxlen = max(maxlen1, max(maxlen2, maxlen3))
     print maxlen
     dense_file = '../tmp/feature_dense_train'
     one_hot_encoding(dense_file, train_features, maxlen)
 
     dense_file = '../tmp/feature_dense_validation'
     one_hot_encoding(dense_file, validation_features, maxlen)
+
+    dense_file = '../tmp/feature_dense_test'
+    one_hot_encoding(dense_file, test_features, maxlen)
 
 if __name__=='__main__':
     main()
