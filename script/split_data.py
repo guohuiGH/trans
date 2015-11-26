@@ -7,10 +7,13 @@
 #!/bin/bash
 #coding=utf-8
 
-def main():
-    myfile = open('../tmp/gd_train_data.txt')
+import sys
+
+def main(line_name):
+    myfile = open('../tmp/' + line_name)
     train_file = open('../tmp/gd_train', 'w+')
-    test_file = open('../tmp/gd_test', 'w+')
+    test_file = open('../tmp/gd_validation', 'w+')
+
     line = myfile.readline()
     count = 0
     while line:
@@ -25,5 +28,5 @@ def main():
 
 
 if __name__=='__main__':
-    main()
+    main(sys.argv[1])
 
