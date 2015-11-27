@@ -1,13 +1,14 @@
 #########################################################################
-# File Name: gbdt.py
+# File Name: random_forest.py
 # Author: guohui
 # mail: guohui1029@foxmail.com
-# Created Time: Wed 25 Nov 2015 11:46:18 PM CST
+# Created Time: Thu 26 Nov 2015 08:35:38 PM CST
 #########################################################################
 #!/bin/bash
+#coding=utf-8
 
 from numpy import *
-from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
 import sys
 def load_data_set(file_name):
     myfile = open(file_name)
@@ -24,7 +25,7 @@ def load_data_set(file_name):
 
 def gbdt(dataMat, labelMat, testMat):
     xMat = mat(dataMat); yMat = ravel(labelMat); xxMat = mat(testMat)
-    rsp = GradientBoostingRegressor(loss='ls', learning_rate=0.1, n_estimators=50,max_depth=5)
+    rsp = RandomForestRegressor(n_estimators=60,max_depth=5)
     rsp.fit(xMat, yMat)
     y = rsp.predict(testMat)
     print y
@@ -50,4 +51,3 @@ def main():
     
 if __name__=='__main__':
     main()
-

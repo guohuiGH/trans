@@ -7,8 +7,6 @@
 #!/bin/bash
 #coding=utf-8
 
-
-import sys
 def read_file():
     xianlu = ''
     f1 = open('../tmp/temp.txt', 'w+')
@@ -25,7 +23,7 @@ def read_file():
         line = f2.readline()
     f2.close()
 
-    f3 = open('../tmp/name_day_hour_train')
+    f3 = open('../tmp/name_day_hour')
     line = f3.readline()
     while line:
         line_list = line.strip().split(',')
@@ -66,29 +64,11 @@ def read_file():
     f1.close()
     f4.close()
 
-def sort_name(file_name, file_name2):
-    myfile = open(file_name)
-    name_dict = dict()
-    line = myfile.readline()
-    while line:
-        line_list = line.strip().split(',')
-        name = ','.join(line_list[0:len(line_list)-1])
-        name_dict[name] = line_list[len(line_list)-1]
-        line = myfile.readline()
-    myfile.close()
-    myfile = open(file_name2, 'w+')
-    temp = name_dict.keys()
-    temp.sort()
-    for item in temp:
-        myfile.write(item + ',' + name_dict[item] + '\n')
-    myfile.close()
+    
 
 
 def main():
     read_file()
-    file_name = '../tmp/manaual_predict.txt'
-    file_name2 = '../tmp/manaual' + str(sys.argv[1])
-    sort_name(file_name, file_name2)
 
 if __name__=='__main__':
     main()

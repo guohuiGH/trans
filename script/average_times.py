@@ -17,15 +17,15 @@ def parse_time(time):
     hour = time[8:]
     base = 0
     if month == 8:
-        base = 0
+        base = 4
     elif month == 9:
-        base = 31
+        base = 35
     elif month == 10:
-        base = 61
+        base = 65
     elif month == 11:
-        base = 92
+        base = 96
     elif month == 12:
-        base = 122
+        base = 126
     day = base + day
     return str(day), str(hour)
 
@@ -109,7 +109,7 @@ def write_test(file_name, name_line):
         for t in range(6, hour+6):
             line = list()
             line.append(name_line)
-            line.append(str(j + 153))
+            line.append(str(j + 157))
             line.append(str(t))
             line.append('0')
             myfile.write(','.join(line) + '\n')
@@ -134,10 +134,10 @@ def main():
     write_test(name_file, sys.argv[1])
 
 
-    #train_name_week_hour = get_average_week(train_name_day_hour)
-    #(maxValue, minValue, averValue) = get_max_min_aver(train_name_week_hour)
+    train_name_week_hour = get_average_week(train_name_day_hour)
+    (maxValue, minValue, averValue) = get_max_min_aver(train_name_week_hour)
     predict_file = '../tmp/predict_av.txt'
-    #write_file(averValue, predict_file)
+    write_file(averValue, predict_file)
     predict_file = '../tmp/predict_ma.txt'
     #write_file(maxValue, predict_file)
     predict_file = '../tmp/predict_mi.txt'

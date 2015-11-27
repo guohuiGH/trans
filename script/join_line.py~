@@ -63,6 +63,8 @@ def main():
     line_10.extend(line_15)
     write_file(file_name, line_10)
     
-    
+    file_name = '../tmp/manaual_predict.txt'
+    file_name2 = '../tmp/manaual.predict2.txt'
+    #sort_name(file_name, file_name2)
 if __name__=='__main__':
     main()

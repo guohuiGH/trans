@@ -20,9 +20,9 @@ def read_file(file_name1, file_name2):
     return maxValue
 
 def isHoliday(day):
-    brefore_holiday=[38,61,153]
-    holiday = [39,62,63,64,65,66,77,68,154,155,156]
-    after_holiday = [72,157]
+    brefore_holiday=[42,65,157]
+    holiday = [44,66,67,68,69,70,71,72,158,159,160]
+    after_holiday = [76,161]
     for d in brefore_holiday:
         if day == d:
             return 1
@@ -52,12 +52,17 @@ def connect_feature(file_name1, file_name2):
         holiday = isHoliday(day)
         if holiday == 2:
             temp_list.append(str(2))
-            temp_list.append(str(8))
+            if day == 43 or day == 66 or day == 67 or day == 158:
+                temp_list.append(str(8))
+            elif day == 68 or day == 69 or day == 70 or day == 159:
+                temp_list.append(str(9))
+            elif day == 44 or day == 71 or day == 72 or day == 160:
+                temp_list.append(str(10))
         elif holiday == 3:
-            if day == 157:
+            if day == 161:
                 temp_list.append(str(1))
                 temp_list.append(str(1))
-            elif day == 72:
+            elif day == 76:
                 temp_list.append(str(1))
                 temp_list.append(str(5))
         elif holiday == 1:
@@ -76,7 +81,7 @@ def connect_feature(file_name1, file_name2):
 
         #temp_list[1] = (str(day%7 + 1))
         #temp_list[2] = (str(isHoliday(day)))
-        temp_list.append(str(int(line_list[2])-5))
+        temp_list.append(str(int(line_list[2])))
         #print weather_feature[str(day)]
         temp_list.extend(weather_feature[str(day)][1:])
         features.append(','.join(temp_list))
@@ -129,9 +134,9 @@ def one_hot_encoding(file_name, features, maxlen):
     
 
 def main():
-    max_file = '../tmp/predict_ma.txt'
-    min_file = '../tmp/predict_mi.txt'
-    read_file(max_file, min_file)
+    #max_file = '../tmp/predict_ma.txt'
+    #min_file = '../tmp/predict_mi.txt'
+    #read_file(max_file, min_file)
     name_file = '../tmp/name_day_hour_train'
     feature_file = '../tmp/train_feature'
     features = connect_feature(name_file, feature_file)

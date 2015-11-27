@@ -6,7 +6,7 @@
 #########################################################################
 #!/bin/bash
 #coding=utf-8
-
+import sys
 from numpy import *
 
 lam = -0.001
@@ -33,17 +33,25 @@ def linear_rs(xArr, yArr):
         return
 
     weight = xTx.I*(xMat.T*yMat)
+    print weight
     return weight
 
 def predict(xArr, yArr, weight):
     global lam
-    xMat = mat(xArr); 
+    xMat = mat(xArr) 
     p_y = xMat*weight.tolist()
-    print p_y
+    return p_y
     loss = 0.0
-    for i in range(0, len(yArr)):
-        loss += (yArr[i] - p_y[i])*(yArr[i]- p_y[i])
-    print loss
+    #for i in range(0, len(yArr)):
+    #    loss += (yArr[i] - p_y[i])*(yArr[i]- p_y[i])
+    #print loss
+
+def write_file(predict, file_name):
+    myfile = open(file_name, 'w+')
+    for p in predict:
+        myfile.write(str(int(p)) + '\n')
+    myfile.close()
+
 
 def main():
     data_set_file = '../tmp/feature_dense_train' 
@@ -52,8 +60,19 @@ def main():
 
     data_set_file = '../tmp/feature_dense_validation'
     (vaMat, labelMat) = load_data_set(data_set_file)
-    predict(vaMat, labelMat, weight)
+    value = predict(vaMat, labelMat, weight)
+    file_name = '../tmp/validation_predict'
+    write_file(value, file_name)
 
+    data_set_file = '../tmp/feature_dense_test'
+    (teMat, lableMat) = load_data_set(data_set_file)
+    value = predict(teMat, labelMat, weight)
+    if sys.argv[1] == '10':
+        file_name = '../tmp/test_predict_10'
+    elif sys.argv[1] == '15':
+        file_name = '../tmp/test_predict_15'
+    write_file(value, file_name)
+    
 
 if __name__=='__main__':
     main()

@@ -9,16 +9,18 @@
 
 def main():
     myfile = open('../tmp/gd_train_data.txt')    
-    train_10 = open('../tmp/gd_10', 'w+')
-    train_15 = open('../tmp/gd_15', 'w+')
+    train_10 = open('../tmp/gd_6', 'w+')
+    train_15 = open('../tmp/gd_11', 'w+')
     line = myfile.readline()
     while line:
         line_list = str(line).strip().split(',')
         name = line_list[1][6:]
-
-        if name == '10':
+        if line_list[5] < '2014090100':
+            line = myfile.readline()
+            continue
+        if name == '6':
             train_10.write(str(line))
-        elif name == '15':
+        elif name == '11':
             train_15.write(str(line))
         line = myfile.readline()
     myfile.close()
